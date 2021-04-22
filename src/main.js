@@ -30,8 +30,8 @@ let config = {
     scene: [ Load, Title, Play, GameOver ]
 }
 
-// uncomment the following line if you need to purge local storage data
-//localStorage.clear();
+// comment the following line if you need to NOT purge local storage data
+localStorage.clear();
 
 // define game
 let game = new Phaser.Game(config);
