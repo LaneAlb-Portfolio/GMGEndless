@@ -39,9 +39,6 @@ class Title extends Phaser.Scene {
 
         // set up cursor keys
         cursors = this.input.keyboard.createCursorKeys();
-
-        // debug
-        
     }
 
     update() {

@@ -30,7 +30,7 @@ class Play extends Phaser.Scene {
             repeat: 0
         });
 
-        // 🎉 let's get the PARTYcles started 🎉
+        // particle emitter
         // create line on right side of screen for particles source
         let line = new Phaser.Geom.Line(w, 0, w, h);  
         // create particle manager  
@@ -46,15 +46,7 @@ class Play extends Phaser.Scene {
         });
 
         // set up player paddle (physics sprite) and set properties
-        paddle = this.physics.add.sprite(32, centerY, 'paddle').setOrigin(0.5);
-        paddle.setCollideWorldBounds(true);
-        paddle.setBounce(0.5);
-        paddle.setImmovable();
-        paddle.setMaxVelocity(0, 600);
-        paddle.setDragY(200);
-        paddle.setDepth(1);         // ensures that paddle z-depth remains above shadow paddles
-        paddle.destroyed = false;   // custom property to track paddle life
-        paddle.setBlendMode('SCREEN');
+        paddle = new Player(this, 32, centerY, 'paddle', 0);
 
         // set up barrier group
         this.barrierGroup = this.add.group({
@@ -73,8 +65,8 @@ class Play extends Phaser.Scene {
             loop: true
         });
 
-        // set up cursor keys
-        cursors = this.input.keyboard.createCursorKeys();
+        // set up spacebar
+        spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     // create new barriers and add them to existing barrier group
@@ -88,16 +80,16 @@ class Play extends Phaser.Scene {
         // make sure paddle is still alive
         if(!paddle.destroyed) {
             // check for player input
-            if(cursors.up.isDown) {
-                paddle.body.velocity.y -= paddleVelocity;
-            } else if(cursors.down.isDown) {
-                paddle.body.velocity.y += paddleVelocity;
+            if(Phaser.Input.Keyboard.JustDown(spacebar)) { // invert velocity ONCE per presssss
+                paddle.velocity = (-1)*paddle.velocity;
+                paddle.setVelocityY(paddle.velocity);
+                //console.log("Vel:" + paddle.velocity);
             }
             // check for collisions
             this.physics.world.collide(paddle, this.barrierGroup, this.paddleCollision, null, this);
         }
 
-        // spawn rainbow trail if in EXTREME mode
+        // spawn rainbow trail if play lived for 75 seconds
         if(this.extremeMODE && !this.shadowLock && !paddle.destroyed) {
             this.spawnShadowPaddles();
             this.shadowLock = true;
@@ -119,7 +111,7 @@ class Play extends Phaser.Scene {
                 this.bgm.rate += 0.01;                          // increase bgm playback rate (ドキドキ)
             }
             
-            // make flying score text
+            // score text flying across screen
             let lvltxt01 = this.add.bitmapText(w, centerY, 'gem', `<${level}>`, 96).setOrigin(0, 0.5);
             let lvltxt02 = this.add.bitmapText(w, centerY, 'gem', `<${level}>`, 96).setOrigin(0, 0.5);
             let lvltxt03 = this.add.bitmapText(w, centerY, 'gem', `<${level}>`, 96).setOrigin(0, 0.5);
@@ -159,11 +151,13 @@ class Play extends Phaser.Scene {
         // set HARD mode
         if(level == 45) {
             paddle.scaleY = 0.75;       // 3/4 paddle size
+            paddle.velocity += paddle.velocity;
         }
         // set EXTREME mode
         if(level == 75) {
             paddle.scaleY = 0.5;        // 1/2 paddle size
-            this.extremeMODE = true;    // 🌈
+            paddle.velocity += 2*paddle.velocity;
+            this.extremeMODE = true;    // rainbow trail
         }
     }
 
@@ -222,11 +216,11 @@ class Play extends Phaser.Scene {
         // store current paddle bounds so we can create a paddle-shaped death emitter
         let pBounds = paddle.getBounds();
         deathEmitter.setEmitZone({
-            source: new Phaser.Geom.Rectangle(pBounds.x, pBounds.y, pBounds.width, pBounds.height),
+            source: new Phaser.Geom.Ellipse(pBounds.x+50, pBounds.y, pBounds.width, pBounds.height),
             type: 'edge',
             quantity: 1000
         });
-        // make it boom 💥
+        // make it boom
         deathEmitter.explode(1000);
         
         // create two gravity wells: one offset from paddle and one at center screen

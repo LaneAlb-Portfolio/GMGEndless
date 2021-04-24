@@ -42,11 +42,14 @@ let centerY = game.config.height/2;
 let w = game.config.width;
 let h = game.config.height;
 const textSpacer = 64;
+//. these are useless after we create a sprite
 let paddle = null;
 const paddleWidth = 16;
 const paddleHeight = 128;
 const paddleVelocity = 150;
+//
 let level;
 let highScore;
 let newHighScore = false;
+let spacebar;
 let cursors;
