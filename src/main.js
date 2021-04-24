@@ -30,8 +30,8 @@ let config = {
     scene: [ Load, Title, Play, GameOver ]
 }
 
-// uncomment the following line if you need to purge local storage data
-//localStorage.clear();
+// comment the following line if you need to NOT purge local storage data
+localStorage.clear();
 
 // define game
 let game = new Phaser.Game(config);
@@ -51,5 +51,9 @@ const paddleVelocity = 150;
 let level;
 let highScore;
 let newHighScore = false;
+<<<<<<< HEAD
 let spacebar;
 let cursors;
+=======
+let cursors;
+>>>>>>> dda84debff39faf750748cab56e75abe079a552d
