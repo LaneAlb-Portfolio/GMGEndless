@@ -51,9 +51,5 @@ const paddleVelocity = 150;
 let level;
 let highScore;
 let newHighScore = false;
-<<<<<<< HEAD
 let spacebar;
 let cursors;
-=======
-let cursors;
->>>>>>> dda84debff39faf750748cab56e75abe079a552d
