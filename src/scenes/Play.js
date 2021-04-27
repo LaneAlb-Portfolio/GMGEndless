@@ -46,7 +46,7 @@ class Play extends Phaser.Scene {
         });
 
         // set up player paddle (physics sprite) and set properties
-        paddle = new Player(this, 32, centerY, 'paddle', 0);
+        paddle = new Player(this, 64, centerY, 'circle', 0);
 
         // set up barrier group
         this.barrierGroup = this.add.group({
@@ -67,6 +67,8 @@ class Play extends Phaser.Scene {
 
         // set up spacebar
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        // set up cursor keys
+        cursors = this.input.keyboard.createCursorKeys();
     }
 
     // create new barriers and add them to existing barrier group
@@ -79,13 +81,14 @@ class Play extends Phaser.Scene {
     update() {
         // make sure paddle is still alive
         if(!paddle.destroyed) {
-            // check for player input
-            if(Phaser.Input.Keyboard.JustDown(spacebar)) { // invert velocity ONCE per presssss
-                paddle.velocity = (-1)*paddle.velocity;
-                paddle.setVelocityY(paddle.velocity);
-                //console.log("Vel:" + paddle.velocity);
+            paddle.update();
+            if(Phaser.Input.Keyboard.JustUp(spacebar)){
+                // figure out gravity settings
+                //paddle.setGravityY((-1)*paddle.velocity / 10);
             }
             // check for collisions
+            // we might want to repurpose Barrier.js to instead of delete
+            // we just force move the player backwards
             this.physics.world.collide(paddle, this.barrierGroup, this.paddleCollision, null, this);
         }
 
@@ -112,9 +115,9 @@ class Play extends Phaser.Scene {
             }
             
             // score text flying across screen
-            let lvltxt01 = this.add.bitmapText(w, centerY, 'gem', `<${level}>`, 96).setOrigin(0, 0.5);
-            let lvltxt02 = this.add.bitmapText(w, centerY, 'gem', `<${level}>`, 96).setOrigin(0, 0.5);
-            let lvltxt03 = this.add.bitmapText(w, centerY, 'gem', `<${level}>`, 96).setOrigin(0, 0.5);
+            let lvltxt01 = this.add.bitmapText(w, centerY, 'gem', `${level}`, 96).setOrigin(0, 0.5);
+            let lvltxt02 = this.add.bitmapText(w, centerY, 'gem', `${level}`, 96).setOrigin(0, 0.5);
+            let lvltxt03 = this.add.bitmapText(w, centerY, 'gem', `${level}`, 96).setOrigin(0, 0.5);
             lvltxt01.setBlendMode('ADD').setTint(0xff00ff);
             lvltxt02.setBlendMode('SCREEN').setTint(0x0000ff);
             lvltxt03.setBlendMode('ADD').setTint(0xffff00);

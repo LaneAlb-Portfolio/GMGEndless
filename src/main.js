@@ -12,7 +12,7 @@
 let config = {
     parent: 'myGame',
     type: Phaser.AUTO,
-    height: 640,
+    height: 480,
     width: 960,
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH
@@ -51,9 +51,5 @@ const paddleVelocity = 150;
 let level;
 let highScore;
 let newHighScore = false;
-<<<<<<< HEAD
 let spacebar;
 let cursors;
-=======
-let cursors;
->>>>>>> dda84debff39faf750748cab56e75abe079a552d
