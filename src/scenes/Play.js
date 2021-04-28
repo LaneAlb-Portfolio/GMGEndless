@@ -6,7 +6,9 @@ class Play extends Phaser.Scene {
     create() {
         // reset parameters
         this.barrierSpeed = -450;
+        this.meteorSpeed = -250;
         this.barrierSpeedMax = -1000;
+        this.meteorSpeedMax = -2000;
         level = 0;
         this.extremeMODE = false;
         this.shadowLock = false;
@@ -32,29 +34,39 @@ class Play extends Phaser.Scene {
 
         // particle emitter
         // create line on right side of screen for particles source
-        let line = new Phaser.Geom.Line(w, 0, w, h);  
+        let line = new Phaser.Geom.Line(0, 0, 0, h);  
         // create particle manager  
         this.particleManager = this.add.particles('cross');
         // add emitter and setup properties
         this.lineEmitter = this.particleManager.createEmitter({
-            gravityX: -200,
-            lifespan: 5000,
-            alpha: { start: 0.5, end: 0.1 },
-            tint: [ 0xffff00, 0xff0000, 0x00ff00, 0x00ffff, 0x0000ff ],
-            emitZone: { type: 'random', source: line, quantity: 150 },
+            gravityX: 100,
+            lifespan: 1500,
+            alpha: { start: 0.4, end: 0.1 },
+            tint: [ 0xba7e25, 0xf5b916, 0xed7955, 0xe8b038, 0xf04a18 ], //orange and red tints
+            emitZone: { type: 'random', source: line, quantity: 50 },
             blendMode: 'ADD'
         });
 
         // set up player paddle (physics sprite) and set properties
-        paddle = new Player(this, 64, centerY, 'circle', 0);
+        paddle = new Player(this, 64, centerY, 'PlayerSprite', 0);
 
         // set up barrier group
         this.barrierGroup = this.add.group({
             runChildUpdate: true    // make sure update runs on group children
         });
+
+        // set up Meteor Group
+        this.meteorGroup = this.add.group({
+            runChildUpdate: true    // make sure update runs on group children
+        });
+
         // wait a few seconds before spawning barriers
-        this.time.delayedCall(2500, () => { 
+        this.time.delayedCall(5000, () => { 
             this.addBarrier(); 
+        });
+        // wait a few seconds before spawning kill orbs
+        this.time.delayedCall(2500, () => { 
+            this.addMeteor(); 
         });
 
         // set up difficulty timer (triggers callback every second)
@@ -78,6 +90,14 @@ class Play extends Phaser.Scene {
         this.barrierGroup.add(barrier);
     }
 
+    // create new death balls and add them to existing group
+    addMeteor() {
+        let randSpeed =  Phaser.Math.Between(0, 100);
+        // subtract barrier speed from randSpeed since negative velocity
+        let m = new Meteor(this, this.meteorSpeed - randSpeed);
+        this.meteorGroup.add(m);
+    }
+
     update() {
         // make sure paddle is still alive
         if(!paddle.destroyed) {
@@ -86,10 +106,10 @@ class Play extends Phaser.Scene {
                 // figure out gravity settings
                 //paddle.setGravityY((-1)*paddle.velocity / 10);
             }
-            // check for collisions
-            // we might want to repurpose Barrier.js to instead of delete
-            // we just force move the player backwards
-            this.physics.world.collide(paddle, this.barrierGroup, this.paddleCollision, null, this);
+            // if collide with wall force player backwards
+            // kill player on collide with object
+            this.physics.world.collide(paddle, this.meteorGroup, this.paddleCollision, null, this);
+            this.physics.world.collide(paddle, this.barrierGroup, this.wallCollide, null, this);
         }
 
         // spawn rainbow trail if play lived for 75 seconds
@@ -247,5 +267,16 @@ class Play extends Phaser.Scene {
 
         // switch states after timer expires
         this.time.delayedCall(4000, () => { this.scene.start('gameOverScene'); });
+    }
+
+    wallCollide(){
+        //console.log("Vel: " + paddle.velocityX);
+        paddle.x -= 4;
+        // tentative collide with left hand screen
+        // see if there are exceptions to worldBound Collide 
+        // OR just live with player dying upon immediate left hand collision
+        if(paddle.x <= paddle.width - paddleWidth/2){
+            this.paddleCollision();
+        }
     }
 }
