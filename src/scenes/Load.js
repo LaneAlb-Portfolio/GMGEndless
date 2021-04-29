@@ -21,6 +21,23 @@ class Load extends Phaser.Scene {
     }
 
     create() {
+       this.loadingNum = 0;
+
+        let loadingNumConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 0
+        }
+        
+        this.add.text(centerX,centerY,`Loading: ${this.loadingNum}`, loadingNumConfig)
+
         // check for local storage browser support
         if(window.localStorage) {
             console.log('Local storage supported');
@@ -28,7 +45,26 @@ class Load extends Phaser.Scene {
             console.log('Local storage not supported');
         }
 
-        // go to Title scene
-        this.scene.start('titleScene');
+        
+    }
+
+    update(){
+        if(this.loadingNum > 0 && this.loadingNum < 100){
+            this.updateLoadNum();
+
+        } else{
+            setTimeout(()=>{
+            // go to Title scene
+            this.scene.start('titleScene');
+            },500);
+        }
+    }
+
+    updateLoadNum(){
+        setTimeout(()=>{
+            this.loadingNum += 1;
+            },250);
+
+
     }
 }
