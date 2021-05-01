@@ -12,7 +12,7 @@ class Barrier extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        // add new barrier when existing barrier hits center X
+        // add new barrier when a current wall passes the player
         if(this.newBarrier && this.x < centerX) {
             this.newBarrier = false;
             // call parent scene method from this context

@@ -1,14 +1,7 @@
-// Nathan Altice
-// Paddle Parkour P3
-// An endless dodging game (ported from Phaser CE)
-// Barrier prefab adapted from Travis Faas, An Introduction to HTML5 Game Development with Phaser.js (2017)
-// Original: 4/20/17
-// Updated: 7/6/20
-
-// keep me honest
+// try out strict
 'use strict';
 
-// define and configure main Phaser game object
+// Phaser Game Settings
 let config = {
     parent: 'myGame',
     type: Phaser.AUTO,
@@ -39,8 +32,8 @@ let game = new Phaser.Game(config);
 // define globals
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
-let w = game.config.width;
-let h = game.config.height;
+let gameW = game.config.width;
+let gameH = game.config.height;
 const textSpacer = 64;
 //. these are useless after we create a sprite
 let paddle = null;

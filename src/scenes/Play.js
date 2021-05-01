@@ -61,7 +61,7 @@ class Play extends Phaser.Scene {
         });
 
         // wait a few seconds before spawning barriers
-        this.time.delayedCall(5000, () => { 
+        this.time.delayedCall(15000, () => { 
             this.addBarrier(); 
         });
         // wait a few seconds before spawning kill orbs
@@ -85,8 +85,8 @@ class Play extends Phaser.Scene {
 
     // create new barriers and add them to existing barrier group
     addBarrier() {
-        let tilt =  Phaser.Math.Between(0, 50);
-        let barrier = new Barrier(this, this.barrierSpeed - tilt);
+        let randSpeed =  Phaser.Math.Between(0, 50);
+        let barrier = new Barrier(this, this.barrierSpeed - randSpeed);
         this.barrierGroup.add(barrier);
     }
 
@@ -104,27 +104,18 @@ class Play extends Phaser.Scene {
             paddle.update();
             if(Phaser.Input.Keyboard.JustUp(spacebar)){
                 // figure out gravity settings
-                //paddle.setGravityY((-1)*paddle.velocity / 10);
+                paddle.setGravityY(paddle.velocity / 10);
             }
             // if collide with wall force player backwards
             // kill player on collide with object
             this.physics.world.collide(paddle, this.meteorGroup, this.paddleCollision, null, this);
             this.physics.world.collide(paddle, this.barrierGroup, this.wallCollide, null, this);
         }
-
-        // spawn rainbow trail if play lived for 75 seconds
-        if(this.extremeMODE && !this.shadowLock && !paddle.destroyed) {
-            this.spawnShadowPaddles();
-            this.shadowLock = true;
-            // lock shadow paddle spawning to a given time interval
-            this.time.delayedCall(15, () => { this.shadowLock = false; })
-        }
     }
 
     levelBump() {
         // increment level (ie, score)
         level++;
-
         // bump speed every 5 levels (until max is hit)
         if(level % 5 == 0) {
             //console.log(`level: ${level}, speed: ${this.barrierSpeed}`);
@@ -135,16 +126,16 @@ class Play extends Phaser.Scene {
             }
             
             // score text flying across screen
-            let lvltxt01 = this.add.bitmapText(w, centerY, 'gem', `${level}`, 96).setOrigin(0, 0.5);
-            let lvltxt02 = this.add.bitmapText(w, centerY, 'gem', `${level}`, 96).setOrigin(0, 0.5);
-            let lvltxt03 = this.add.bitmapText(w, centerY, 'gem', `${level}`, 96).setOrigin(0, 0.5);
+            let lvltxt01 = this.add.bitmapText(gameW, centerY, 'gem', `${level}`, 96).setOrigin(0, 0.5);
+            let lvltxt02 = this.add.bitmapText(gameW, centerY, 'gem', `${level}`, 96).setOrigin(0, 0.5);
+            let lvltxt03 = this.add.bitmapText(gameW, centerY, 'gem', `${level}`, 96).setOrigin(0, 0.5);
             lvltxt01.setBlendMode('ADD').setTint(0xff00ff);
             lvltxt02.setBlendMode('SCREEN').setTint(0x0000ff);
             lvltxt03.setBlendMode('ADD').setTint(0xffff00);
             this.tweens.add({
                 targets: [lvltxt01, lvltxt02, lvltxt03],
                 duration: 2500,
-                x: { from: w, to: 0 },
+                x: { from: gameW, to: 0 },
                 alpha: { from: 0.9, to: 0 },
                 onComplete: function() {
                     lvltxt01.destroy();
@@ -173,12 +164,12 @@ class Play extends Phaser.Scene {
 
         // set HARD mode
         if(level == 45) {
-            paddle.scaleY = 0.75;       // 3/4 paddle size
+            paddle.scaleY = 1.25;       // 3/4 paddle size
             paddle.velocity += paddle.velocity;
         }
         // set EXTREME mode
         if(level == 75) {
-            paddle.scaleY = 0.5;        // 1/2 paddle size
+            paddle.scaleY = 1.5;        // 1/2 paddle size
             paddle.velocity += 2*paddle.velocity;
             this.extremeMODE = true;    // rainbow trail
         }

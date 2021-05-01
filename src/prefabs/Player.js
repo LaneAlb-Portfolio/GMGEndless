@@ -26,6 +26,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             // drag and gravity
             //console.log("Vel:" + paddle.velocity);
         }
+        // use velocity instead?
         if(cursors.left.isDown){
             this.x -= 2
         }

@@ -4,20 +4,20 @@ class Title extends Phaser.Scene {
     }
 
     create() {
-        // add title screen text
+        // Title Txt
         let title01 = this.add.bitmapText(centerX, centerY - textSpacer, 'gem', 'GMG RUNNER', 64).setOrigin(0.5).setTint(0xff0000);
         let title02 = this.add.bitmapText(centerX, centerY - textSpacer, 'gem', 'GMG RUNNER', 64).setOrigin(0.5).setTint(0xff00ff).setBlendMode('SCREEN');
         let title03 = this.add.bitmapText(centerX, centerY - textSpacer, 'gem', 'GMG RUNNER', 64).setOrigin(0.5).setTint(0xffff00).setBlendMode('ADD');
-       
+        // Body
         this.add.bitmapText(centerX, centerY, 'gem', 'Use SPACE to invert your gravity', 24).setOrigin(0.5);
         this.add.bitmapText(centerX, centerY + textSpacer*0.5, 'gem', 'use LEFT and RIGHT arrows to move', 24).setOrigin(0.5);
         this.add.bitmapText(centerX, centerY + textSpacer*2, 'gem', 'Press UP ARROW to Start', 36).setOrigin(0.5);
-        this.add.bitmapText(centerX, h - textSpacer, 'gem', 'GMG 2021', 16).setOrigin(0.5);
+        this.add.bitmapText(centerX, gameH - textSpacer, 'gem', 'GMG 2021', 16).setOrigin(0.5);
 
-        // title text tween
+        // title text tween (Based on PaddleRunner)
         this.tweens.add({
             targets: title01,
-            duration: 2500,
+            duration: 1500,
             angle: { from: -1, to: 1 },
             yoyo: true,
             repeat: -1,
@@ -28,7 +28,7 @@ class Title extends Phaser.Scene {
         });
         this.tweens.add({
             targets: title02,
-            duration: 2500,
+            duration: 1500,
             angle: { from: 1, to: -1 },
             yoyo: true,
             repeat: -1,
@@ -38,11 +38,12 @@ class Title extends Phaser.Scene {
             onRepeatScope: this
         });
 
-        // set up cursor keys
+        // set up cursor keys for title screen input
         cursors = this.input.keyboard.createCursorKeys();
     }
 
     update() {
+        // try removing snapshot of the viewport and see what happens
         // check for UP input
         if (Phaser.Input.Keyboard.JustDown(cursors.up)) {
             // temp variables to maintain scope
@@ -59,7 +60,7 @@ class Title extends Phaser.Scene {
                 textureManager.addImage('titlesnapshot', image);
             });
             
-            // start next scene
+            // start play scene
             this.scene.start('playScene');
         }
     }
