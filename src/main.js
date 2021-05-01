@@ -1,9 +1,9 @@
-// try out strict
+// lets try strict
 'use strict';
 
 // Phaser Game Settings
 let config = {
-    parent: 'myGame',
+    parent: 'Endless Runner',
     type: Phaser.AUTO,
     height: 480,
     width: 960,
@@ -13,36 +13,27 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            //debug: true,
-            gravity: {
-                x: 0,
-                y: 0
+            gravity: { // no x gravity
+                x: 0
             }
         }
     },
     scene: [ Load, Title, Play, GameOver ]
 }
 
-// comment the following line if you need to NOT purge local storage data
+// purge local storage on startup
 localStorage.clear();
-
 // define game
 let game = new Phaser.Game(config);
 
-// define globals
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
 let gameW = game.config.width;
 let gameH = game.config.height;
-const textSpacer = 64;
-//. these are useless after we create a sprite
-let paddle = null;
-const paddleWidth = 16;
-const paddleHeight = 128;
-const paddleVelocity = 150;
-//
-let level;
+let txtSpacing = 64;
+let player; // this makes referencing player object a bit cleaner
+let time;   // time in game aka the score
 let highScore;
 let newHighScore = false;
-let spacebar;
-let cursors;
+let spacebar;  // spacebar global key var
+let cursors;   // global var for cursor keys()

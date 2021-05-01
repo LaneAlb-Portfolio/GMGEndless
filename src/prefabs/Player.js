@@ -12,7 +12,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setMaxVelocity(200,300);
         this.setDragY(0);
         this.setBounce(0);
-        this.velocity = paddleVelocity;                   // base velocity value
+        this.velocity = 200;                   // base velocity value
         this.flipped = false;                  // check if sprite axis is flipped
         this.destroyed = false;                // destruction bool
         this.setVelocityY(this.velocity);      // can set velocity for X if we want side movement
@@ -20,9 +20,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     update() {
         // check for player input
         if(Phaser.Input.Keyboard.JustDown(spacebar)) { // invert velocity ONCE per presssss
-            paddle.velocity = (-1)*paddle.velocity;
-            paddle.setVelocityY(paddle.velocity);
-            paddle.flip();
+            player.velocity = (-1)*player.velocity;
+            player.setVelocityY(player.velocity);
+            player.flip();
             // drag and gravity
             //console.log("Vel:" + paddle.velocity);
         }
