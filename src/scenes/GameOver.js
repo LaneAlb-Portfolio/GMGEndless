@@ -4,8 +4,8 @@ class GameOver extends Phaser.Scene {
     }
 
     create() {
-        // check for high score in local storage
-        // uncomment console.log statements if you need to debug local storage
+        // Highscore logic from Nathan Altices PaddleParkour3
+        // https://github.com/nathanaltice/PaddleParkourP3
         if(localStorage.getItem('hiscore') != null) {
             let storedScore = parseInt(localStorage.getItem('hiscore'));
             //console.log(`storedScore: ${storedScore}`);
@@ -29,11 +29,11 @@ class GameOver extends Phaser.Scene {
 
         // add GAME OVER text
         if(newHighScore) {
-            this.add.bitmapText(centerX, centerY - textSpacer, 'gem', 'New Hi-Score!', 32).setOrigin(0.5);
+            this.add.bitmapText(centerX, centerY - txtSpacing, 'gem', 'New Hi-Score!', 32).setOrigin(0.5);
         }
-        this.add.bitmapText(centerX, centerY, 'gem', `Disintegration averted for ${level}s`, 48).setOrigin(0.5);
-        this.add.bitmapText(centerX, centerY + textSpacer, 'gem', `This browser's best: ${highScore}s`, 24).setOrigin(0.5);
-        this.add.bitmapText(centerX, centerY + textSpacer*2, 'gem', `Press UP ARROW to Restart`, 36).setOrigin(0.5);
+        this.add.bitmapText(centerX, centerY, 'gem', `Running Time ${level}s`, 48).setOrigin(0.5);
+        this.add.bitmapText(centerX, centerY + txtSpacing, 'gem', `Your Best Score: ${highScore}s`, 24).setOrigin(0.5);
+        this.add.bitmapText(centerX, centerY + txtSpacing*2, 'gem', `Press UP ARROW to Restart`, 36).setOrigin(0.5);
 
         // set up cursor keys
         cursors = this.input.keyboard.createCursorKeys();
