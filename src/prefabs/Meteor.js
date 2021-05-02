@@ -7,7 +7,7 @@ class Meteor extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);       // add physics body
         this.setVelocityX(velocity);            // make it go!
         this.setImmovable();                    
-        this.tint = Math.random() * 0xFFFFFF;   // randomize tint
+        this.tint = 0xFFFFFF;   // randomize tint
         this.newBarrier = true;                 // custom property to control barrier spawning
     }
 

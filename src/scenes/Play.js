@@ -5,8 +5,8 @@ class Play extends Phaser.Scene {
 
     create() {
         // reset parameters
-        this.barrierSpeed = -450;
-        this.meteorSpeed = -250;
+        this.barrierSpeed = -350;
+        this.meteorSpeed = -450;
         this.barrierSpeedMax = -1000;
         this.meteorSpeedMax = -2000;
         time = 0;
@@ -31,17 +31,30 @@ class Play extends Phaser.Scene {
         });
 
         // particle emitter
-        // create line on right side of screen for particles source
+        // create line where player can die
         let line = new Phaser.Geom.Line(0, 0, 0, gameH);  
         // create particle manager
         this.particleManager = this.add.particles('cross');
         // add emitter and setup properties
         this.lineEmitter = this.particleManager.createEmitter({
             gravityX: 100,
-            lifespan: 1500,
-            alpha: { start: 0.4, end: 0.1 },
+            lifespan: 2000,
+            alpha: { start: 0.5, end: 0.1 },
             tint: [ 0xba7e25, 0xf5b916, 0xed7955, 0xe8b038, 0xf04a18 ], //orange and red tints
-            emitZone: { type: 'random', source: line, quantity: 50 },
+            emitZone: { type: 'random', source: line, quantity: 75 },
+            blendMode: 'ADD'
+        });
+
+        let fire = new Phaser.Geom.Triangle(0, gameH/2, 0, gameH, 25, gameH);  
+        // create particle manager
+        this.particleManager = this.add.particles('cross');
+        // add emitter and setup properties
+        this.lineEmitter = this.particleManager.createEmitter({
+            gravityX: 150,
+            lifespan: 1500,
+            alpha: { start: 0.4, end: 0.01 },
+            tint: [ 0xeb4034, 0xa8140a, 0xe39691, 0xe8b038, 0x96433e ], //red tints
+            emitZone: { type: 'edge', source: fire, quantity: 25 },
             blendMode: 'ADD'
         });
 
@@ -58,13 +71,13 @@ class Play extends Phaser.Scene {
             runChildUpdate: true    // make sure update runs on group children
         });
 
-        // wait a few seconds before spawning barriers
-        this.time.delayedCall(15000, () => { 
-            this.addBarrier(); 
+        // wait awhile for wall spawns
+        this.time.delayedCall(10000, () => { 
+            this.addBarrier();
         });
-        // wait a few seconds before spawning kill orbs
+        // wait slightly before meteors spawn
         this.time.delayedCall(2500, () => { 
-            this.addMeteor(); 
+            this.addMeteor();
         });
 
         // set up difficulty timer (triggers callback every second)
@@ -90,7 +103,7 @@ class Play extends Phaser.Scene {
 
     // create new death balls and add them to existing group
     addMeteor() {
-        let randSpeed =  Phaser.Math.Between(0, 100);
+        let randSpeed =  Phaser.Math.Between(0, 250);
         // subtract barrier speed from randSpeed since negative velocity
         let m = new Meteor(this, this.meteorSpeed - randSpeed);
         this.meteorGroup.add(m);
@@ -100,13 +113,13 @@ class Play extends Phaser.Scene {
         // make sure player is still alive
         if(!player.destroyed) {
             player.update();
-            if(Phaser.Input.Keyboard.JustUp(spacebar)){
+            if(Phaser.Input.Keyboard.JustDown(spacebar)){
                 // figure out gravity settings
-                player.setGravityY(player.velocity * 10);
+                player.setGravityY(player.velocity * 100);
             }
             // if collide with wall force player backwards
             // kill player on collide with object
-            this.physics.world.collide(player, this.meteorGroup, this.paddleCollision, null, this);
+            this.physics.world.collide(player, this.meteorGroup, this.playerCollision, null, this);
             this.physics.world.collide(player, this.barrierGroup, this.wallCollide, null, this);
         }
     }
@@ -114,9 +127,10 @@ class Play extends Phaser.Scene {
     levelBump() {
         // increment level (ie, score)
         time++;
-        // bump speed every 5 levels (until max is hit)
-        if(time % 5 == 0) {
-            //console.log(`level: ${level}, speed: ${this.barrierSpeed}`);
+        // ramp objects every 10 seconds
+        // Nathan Altice's PaddleParkou3 has a similar idea
+        // we like this
+        if(time % 10 == 0) {
             this.sound.play('clang', { volume: 0.75 });         // play clang to signal speed up
             if(this.barrierSpeed >= this.barrierSpeedMax) {     // increase barrier speed
                 this.barrierSpeed -= 25;
@@ -151,111 +165,50 @@ class Play extends Phaser.Scene {
                 duration: 2500,
                 y: '+=20'       // slowly nudge y-coordinate down
             });
- 
-            // change game border color
-            let rndColor = this.getRandomColor();
-            document.getElementsByTagName('canvas')[0].style.borderColor = rndColor;
-
-            // cam shake: .shake( [duration] [, intensity] )
-            this.cameras.main.shake(100, 0.01);
         }
 
-        // set HARD mode
-        if(time == 45) {
-            player.scaleY = 1.25;       // 3/4 paddle size
+        // spawn more objects as time goes on
+        if(time == 15) {
             player.velocity += player.velocity;
+            this.addMeteor();
         }
-        // set EXTREME mode
-        if(time == 75) {
-            player.scaleY = 1.5;        // 1/2 paddle size
+        if(time == 45) {
             player.velocity += 2*player.velocity;
-            this.extremeMODE = true;    // rainbow trail
+            this.addMeteor();
+            this.addBarrier();
         }
     }
 
-    // random HTML hex color generator from:
-    // https://stackoverflow.com/questions/1484506/random-color-generator
-    getRandomColor() {
-        let letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
-
-    spawnShadowPaddles() {
-        // add a "shadow paddle" at main paddle position
-        let shadowPaddle = this.add.image(player.x, player.y, 'paddle').setOrigin(0.5);
-        shadowPaddle.scaleY = player.scaleY;            // scale to parent paddle
-        shadowPaddle.tint = Math.random() * 0xFFFFFF;   // tint w/ rainbow colors
-        shadowPaddle.alpha = 0.5;                       // make semi-transparent
-        // tween shadow paddle alpha to 0
-        this.tweens.add({ 
-            targets: shadowPaddle, 
-            alpha: { from: 0.5, to: 0 }, 
-            duration: 750,
-            ease: 'Linear',
-            repeat: 0 
-        });
-        // set a kill timer for trail effect
-        this.time.delayedCall(750, () => { shadowPaddle.destroy(); } );
-    }
-
-    paddleCollision() {
+    playerCollision() {
         player.destroyed = true;                    // turn off collision checking
         this.difficultyTimer.destroy();             // shut down timer
         this.sound.play('death', { volume: 0.25 }); // play death sound
         this.cameras.main.shake(2500, 0.0075);      // camera death shake
         
-        // add tween to fade out audio
-        this.tweens.add({
-            targets: this.bgm,
-            volume: 0,
-            ease: 'Linear',
-            duration: 2000,
-        });
+        // cut audio
+        this.bgm.volume = 0;
 
         // create particle explosion
         let deathParticleManager = this.add.particles('cross');
         let deathEmitter = deathParticleManager.createEmitter({
             alpha: { start: 1, end: 0 },
             scale: { start: 0.75, end: 0 },
-            speed: { min: -150, max: 150 },
-            lifespan: 4000,
+            speed: { min: -100, max: 100 },
+            lifespan: 2500,
             blendMode: 'ADD'
         });
         // store current paddle bounds so we can create a paddle-shaped death emitter
         let pBounds = player.getBounds();
         deathEmitter.setEmitZone({
-            source: new Phaser.Geom.Ellipse(pBounds.x+50, pBounds.y, pBounds.width, pBounds.height),
+            source: new Phaser.Geom.Ellipse(pBounds.x, pBounds.y, pBounds.width, pBounds.height),
             type: 'edge',
-            quantity: 1000
+            quantity: 100
         });
         // make it boom
         deathEmitter.explode(1000);
-        
-        // create two gravity wells: one offset from paddle and one at center screen
-        deathParticleManager.createGravityWell({
-            x: pBounds.centerX + 200,
-            y: pBounds.centerY,
-            power: 0.5,
-            epsilon: 100,
-            gravity: 100
-        });
-        deathParticleManager.createGravityWell({
-            x: centerX,
-            y: centerY,
-            power: 2,
-            epsilon: 100,
-            gravity: 150
-        });
-       
-        // kill paddle
-        player.destroy();    
-
+        player.destroy();
         // switch states after timer expires
-        this.time.delayedCall(4000, () => { this.scene.start('gameOverScene'); });
+        this.time.delayedCall(2000, () => { this.scene.start('credits'); });
     }
 
     wallCollide(){
@@ -264,8 +217,8 @@ class Play extends Phaser.Scene {
         // tentative collide with left hand screen
         // see if there are exceptions to worldBound Collide 
         // OR just live with player dying upon immediate left hand collision
-        if(player.x <= player.width - this.barrierGroup.width/2){
-            this.paddleCollision();
+        if(player.x <= player.width){
+            this.playerCollision();
         }
     }
 }

@@ -1,6 +1,6 @@
 class GameOver extends Phaser.Scene {
     constructor() {
-        super('gameOverScene');
+        super('gameover');
     }
 
     create() {
@@ -8,21 +8,18 @@ class GameOver extends Phaser.Scene {
         // https://github.com/nathanaltice/PaddleParkourP3
         if(localStorage.getItem('hiscore') != null) {
             let storedScore = parseInt(localStorage.getItem('hiscore'));
-            //console.log(`storedScore: ${storedScore}`);
             // see if current score is higher than stored score
-            if(level > storedScore) {
-                //console.log(`New high score: ${level}`);
-                localStorage.setItem('hiscore', level.toString());
-                highScore = level;
+            if(time > storedScore) {
+                localStorage.setItem('hiscore', time.toString());
+                highScore = time;
                 newHighScore = true;
             } else {
-                //console.log('No new high score :/');
                 highScore = parseInt(localStorage.getItem('hiscore'));
                 newHighScore = false;
             }
         } else {
             //console.log('No high score stored. Creating new.');
-            highScore = level;
+            highScore = time;
             localStorage.setItem('hiscore', highScore.toString());
             newHighScore = true;
         }
@@ -31,10 +28,10 @@ class GameOver extends Phaser.Scene {
         if(newHighScore) {
             this.add.bitmapText(centerX, centerY - txtSpacing, 'gem', 'New Hi-Score!', 32).setOrigin(0.5);
         }
-        this.add.bitmapText(centerX, centerY, 'gem', `Running Time ${level}s`, 48).setOrigin(0.5);
+        this.add.bitmapText(centerX, centerY, 'gem', `Running Time ${time}s`, 48).setOrigin(0.5);
         this.add.bitmapText(centerX, centerY + txtSpacing, 'gem', `Your Best Score: ${highScore}s`, 24).setOrigin(0.5);
         this.add.bitmapText(centerX, centerY + txtSpacing*2, 'gem', `Press UP ARROW to Restart`, 36).setOrigin(0.5);
-
+        this.add.bitmapText(centerX, centerY + txtSpacing*3, 'gem', `Press Down ARROW for Menu`, 36).setOrigin(0.5);
         // set up cursor keys
         cursors = this.input.keyboard.createCursorKeys();
     }
@@ -58,6 +55,9 @@ class GameOver extends Phaser.Scene {
 
             // start next scene
             this.scene.start('playScene');
+        }
+        if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
+            this.scene.start('titleScene');
         }
     }
 }

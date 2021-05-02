@@ -18,7 +18,7 @@ let config = {
             }
         }
     },
-    scene: [ Load, Title, Play, GameOver ]
+    scene: [ Load, Title, Play, GameOver, Credits ]
 }
 
 // purge local storage on startup
