@@ -23,7 +23,7 @@ class Title extends Phaser.Scene {
             yoyo: true,
             repeat: -1,
             onYoyo: function() {
-                this.cameras.main.shake(100, 0.0025);
+                //this.cameras.main.shake(100, 0.0025);
             },
             onYoyoScope: this
         });
@@ -34,7 +34,7 @@ class Title extends Phaser.Scene {
             yoyo: true,
             repeat: -1,
             onRepeat: function() {
-                this.cameras.main.shake(100, 0.0025);
+                //this.cameras.main.shake(100, 0.0025);
             },
             onRepeatScope: this
         });

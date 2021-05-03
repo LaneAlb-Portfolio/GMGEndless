@@ -15,6 +15,7 @@ class Play extends Phaser.Scene {
         time = 0;
         this.floorDeath = false;
         this.ceilDeath = false;
+        this.scrollSpeed = 2;
         // set up audio, play bgm
         this.bgm = this.sound.add('beats', { 
             mute: false,
@@ -48,7 +49,7 @@ class Play extends Phaser.Scene {
         });
 
         // set up player paddle (physics sprite) and set properties
-        player = new Player(this, 64, centerY, 'PlayerSprite', 0);
+        player = new Player(this, 64, gameH-32, 'PlayerSprite', 0);
 
         // set up barrier group
         this.barrierGroup = this.add.group({
@@ -65,7 +66,7 @@ class Play extends Phaser.Scene {
             this.addBarrier();
         });
         // wait slightly before meteors spawn
-        this.time.delayedCall(2500, () => { 
+        this.time.delayedCall(3500, () => { 
             this.addMeteor();
         });
 
@@ -103,7 +104,8 @@ class Play extends Phaser.Scene {
         if(!player.destroyed) {
             //console.log(player.y);
             player.update();
-            this.ship.tilePositionX += 2;
+            this.ship.tilePositionX += this.scrollSpeed;
+            this.stars.tilePositionX -= 1;
             if(Phaser.Input.Keyboard.JustDown(spacebar)){
                 // figure out gravity settings
                 player.setGravityY(player.velocity * 500);
@@ -111,7 +113,8 @@ class Play extends Phaser.Scene {
             // if collide with wall force player backwards
             // kill player on collide with object
             this.physics.world.collide(player, this.meteorGroup, this.playerCollision, null, this);
-            this.physics.world.collide(player, this.barrierGroup, this.wallCollide, null, this);
+            this.physics.world.overlap(player, this.barrierGroup, this.wallCollide, null, this);
+            
             // if electricity is on kill player on contact
             if(this.floorDeath && player.y >= gameH - player.height){
                 this.playerCollision();
@@ -152,6 +155,7 @@ class Play extends Phaser.Scene {
         if(time == 15) {
             this.place = "ceil";
             player.velocity += player.velocity;
+            this.scrollSpeed += this.scrollSpeed;
             this.addMeteor();
             this.electricFloor(this.place);
         }
@@ -163,6 +167,7 @@ class Play extends Phaser.Scene {
             this.right    = cursors.right;
             cursors.right = cursors.left;
             cursors.left  = this.right;
+            this.scrollSpeed += this.scrollSpeed;
             this.addMeteor();
             this.addBarrier();
             this.electricFloor(this.place);
@@ -172,6 +177,7 @@ class Play extends Phaser.Scene {
             player.velocity += 2*player.velocity;
             cursors.right = cursors.left;
             cursors.left = cursors.right;
+            this.scrollSpeed += this.scrollSpeed;
             this.addMeteor();
             this.addBarrier();
         }
