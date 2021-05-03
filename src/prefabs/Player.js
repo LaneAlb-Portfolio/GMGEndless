@@ -28,10 +28,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
         // use velocity instead?
         if(cursors.left.isDown){
-            this.x -= 2
+            this.x -= 2;
         }
         if(cursors.right.isDown){
-            this.x += 2
+            this.x += 2;
         }
         // debugs
     }

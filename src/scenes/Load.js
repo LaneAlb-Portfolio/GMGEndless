@@ -5,9 +5,14 @@ class Load extends Phaser.Scene {
 
     preload() {
         this.load.path = './assets/';
-        // load graphics assets
+        // load texture atlas
+        this.load.atlas('sprites', 'img/spritesheet.png', 'img/spritesheet.json');
+        // load graphical assets
+        this.load.image('stars', 'img/spacebg.png');
+        this.load.image('ship', 'img/spacefg.png');
         this.load.image('black','img/black.png')
         this.load.image('GMG','img/gmg_logo.png')
+        // Del Below
         this.load.image('paddle', 'img/paddle.png');
         this.load.image('circle', 'img/circle.png');
         this.load.image('fragment', 'img/fragment.png');
@@ -16,8 +21,6 @@ class Load extends Phaser.Scene {
         this.load.audio('beats', ['audio/beats.mp3']);
         this.load.audio('clang', ['audio/clang.mp3']);
         this.load.audio('death', ['audio/death.mp3']);
-        // load font
-        
         // loading bar
         let width = this.cameras.main.width;
         let height = this.cameras.main.height;

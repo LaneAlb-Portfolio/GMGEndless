@@ -34,16 +34,16 @@ Structure and Design (75 points) Checklist:
 
 Lane's Checklist:
 [Y] load screen
-[] make white_cross something else probably
-[] new font
-[] character texture atlas
+[Y] make white_cross something else probably
+[Y] new font
+[Y] character texture atlas
 [] ~~player x velocity bug fixes~~ fixed? i think
 [] ~~gravity after invert probably~~ make it stronger prob
-[] ~~import sounds~~
-[] import imgs
+[Y] ~~import sounds~~
+[Y] import imgs
 [Y] ~~am i cracked enough to do a marathon overnight I guess so~~
 [Y] ~~in-game credits (separate scene or after death to menu) not sure which~~
-[] COMMENT ALL CODE THAT WAS INSPIRED BY NATHANS EXAMPLE
+[?] COMMENT ALL CODE THAT WAS INSPIRED BY NATHANS EXAMPLE
 
 
 
