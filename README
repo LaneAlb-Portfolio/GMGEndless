@@ -1,0 +1,85 @@
+Team: GMG
+Members: Lane Albrecht, Mikayla Borreson, Josh Huggins
+Game Title: GMG Runner
+Date Completion: 5/3/2021
+Creative Tilt: 
+
+[From the Assignment Sheet]
+...do something technically interesting? Are you particularly proud of a programming technique you implemented?
+Did you look beyond the class examples and learn how to do something new? (5)
+
+...have a great visual style? Does it use music or art that you're particularly proud of? 
+Are you trying something new or clever with the endless runner form? (5)
+
+[Our Response]
+
+
+
+Structure and Design (75 points) Checklist:
+[] Use multiple Scene classes (defined by your game's style) (5)
+[] Properly transition between Scenes and allow the player to restart w/out having to reload the page (5)
+[] Communicate how to play w/ clear, proofread, in-game instructions (5)
+[] Have some form of player input/control appropriate to your game design (5)
+[] Include one or more animated characters that use a texture atlas (5)
+[] Simulate scrolling with a tileSprite or equivalent means (5)
+[] Implement proper collision detection (via Arcade Physics or your own detection routine) (5)
+[] Have looping background music (5)
+[] Use sound effects for key mechanics, UI, and/or significant events appropriate to your game design (5)
+[] Use randomness to generate challenge, e.g. terrain, pickups, etc. (5)
+[] Include some metric of accomplishment that a player can improve over time, e.g., score, survival time, etc. (5)
+[] Be theoretically endless (5)
+[] Be playable for at least 15 seconds for a new player of low to moderate skill (5)
+[] Run without significant crashes or errors (5)
+[] Include in-game credits for all roles, assets, music, etc. (5)
+
+Lane's Checklist:
+[] load screen
+[] make white_cross something else probably
+[] new font
+[] character texture atlas
+[] ~~player x velocity bug fixes~~ fixed? i think
+[] ~~gravity after invert probably~~ make it stronger prob
+[] ~~import sounds~~
+[] import imgs
+[] ~~am i cracked enough to do a marathon overnight I guess so~~
+[] ~~in-game credits (separate scene or after death to menu) not sure which~~
+[] COMMENT ALL CODE THAT WAS INSPIRED BY NATHANS EXAMPLE
+
+
+
+
+Credits for Assets (Most were edited for game purposes):
+
+Ambient - BG Music: Mikayla's Work
+
+Ambient - Electric BG: The Sound Pack Tree - Designed steady and chotic sizzling [https://www.zapsplat.com/music/designed-steady-and-chaotic-electric-sizzling/]
+
+Ambient - Electric Obstacle 1: ZapSplat - Electricity arcing (sound design) [https://www.zapsplat.com/music/electricity-arcing-sound-design/]
+
+Ambient - Electric Obstacle 2: ZapSplat - Designed electricity spark or arc [https://www.zapsplat.com/music/designed-electricity-spark-or-arc/]
+
+Ambient - Meteor Fireball Loud: ZapSplat - Large fireball passby, designed 6 [https://www.zapsplat.com/music/large-fireball-pass-by-designed-6/]
+
+Ambient - Meteor Fireball Quiet: ZapSplat - Large fireball passby, designed 6 [https://www.zapsplat.com/music/large-fireball-pass-by-designed-6/]
+
+Ambient - Meteor Fireball Crackling: ZapSplat - Large fireball passby, designed 9 [https://www.zapsplat.com/music/large-fireball-pass-by-designed-9/]
+
+Ambient - Meteor Fireball Ambient: ZapSplat - Fireball pass by 4 [https://www.zapsplat.com/music/fireball-pass-by-4/]
+
+Ambient - Meteor Fireball Ambient 2: ZapSplat - Furnace, fire, burning, roar of flames [https://www.zapsplat.com/music/furnace-fire-burning-roar-of-flames/]
+
+Ambient - Space: ZapSplat - Huge abandoned space, dark eery drone, warehouse [https://www.zapsplat.com/music/huge-abandoned-space-dark-eery-drone-warehouse/]
+
+Ambient - Very Hard Mode Enabled: SmartSound - Massive impact, metallic drone sound fading out and chain elements. [https://www.zapsplat.com/music/massive-impact-metallic-drone-sound-fading-out-and-chain-elements/]
+
+Ambient - Hard Mode Enabled: Lukas Tvrdon - Massive underwater impact, crash, or could be in space 4 [https://www.zapsplat.com/music/massive-underwater-impact-crash-or-could-be-in-space-4/]
+
+Electric Death - Electric Death: ZapSplat - Desgned electricity zap, spark [https://www.zapsplat.com/music/designed-electricity-zap-spark/]
+
+Fireball Death - Fireball Death: Soundbits - Fire, fast whoosh by, torch flame or small fireball [https://www.zapsplat.com/music/fire-fast-whoosh-by-torch-flame-or-small-fireball/] &&& Silverplatter Audio - Fire burning, fire pit [https://www.zapsplat.com/music/fire-burning-fire-pit/]
+
+Game Over - Game Over: ZapSplat - Game, lose, negative tone 1 [https://www.zapsplat.com/music/game-lose-negative-tone-1/]
+
+Invert - Invert: ZapSplat - Cartoon Boing,spring or jump [https://www.zapsplat.com/music/cartoon-boing-spring-or-jump/]
+
+Running Ambient - Running: ZapSplat - Footsteps, boots walking in reverberant empty internal space [https://www.zapsplat.com/music/footsteps-boots-walking-in-reverberant-empty-internal-space/]
