@@ -4,7 +4,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        // load background and forground
+         // load background and forground
         this.stars = this.add.tileSprite(0,0, gameW, gameH, 'stars').setOrigin(0,0);
         this.ship  = this.add.tileSprite(0,0, gameW, gameH, 'ship').setOrigin(0,0);
         // reset parameters
@@ -246,7 +246,13 @@ class Play extends Phaser.Scene {
         deathEmitter.explode(500);
         player.destroy();
         // switch states after timer expires
+        if(credCount == 0){
         this.time.delayedCall(2000, () => { this.scene.start('credits'); });
+        credCount = 1; //update credCount so credits are played once on first playthrough
+        }
+        else{
+        this.time.delayedCall(2000, () => { this.scene.start('gameover'); });  
+        }
     }
 
     wallCollide(){

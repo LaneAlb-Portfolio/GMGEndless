@@ -55,6 +55,7 @@ class GameOver extends Phaser.Scene {
 
             // start next scene
             this.scene.start('playScene');
+
         }
         if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
             this.scene.start('titleScene');

@@ -25,7 +25,7 @@ class Load extends Phaser.Scene {
         this.load.audio('bgm', 'audio/RunnerSong1mp3.mp3');
         this.load.audio('fDeath', 'audio/Fireball Death.mp3');
         this.load.audio('eDeath', 'audio/Electric Death.mp3');
-        this.load.audio('invert', 'audio/Sounds/Invert/Invert.mp3');
+        this.load.audio('invert', 'audio/Invert.mp3');
         // loading bar
         let width  = this.cameras.main.width;
         let height = this.cameras.main.height;

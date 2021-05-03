@@ -37,6 +37,7 @@ let highScore;
 let newHighScore = false;
 let spacebar;  // spacebar global key var
 let cursors;   // global var for cursor keys()
+let credCount = 0; // Credits scene counter
 // text configs
 let titleConfig = {fontFamily: 'Dagger', fontSize: '72px', color: '#FFFFFF'};
 let bodyConfig = {fontFamily: 'Dagger', fontSize: '36px', color: '#FFFFFF'};
