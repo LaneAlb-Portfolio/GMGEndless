@@ -16,24 +16,24 @@ Are you trying something new or clever with the endless runner form? (5)
 
 
 Structure and Design (75 points) Checklist:
-[] Use multiple Scene classes (defined by your game's style) (5)
-[] Properly transition between Scenes and allow the player to restart w/out having to reload the page (5)
-[] Communicate how to play w/ clear, proofread, in-game instructions (5)
-[] Have some form of player input/control appropriate to your game design (5)
+[Y] Use multiple Scene classes (defined by your game's style) (5)
+[Y] Properly transition between Scenes and allow the player to restart w/out having to reload the page (5)
+[Y] Communicate how to play w/ clear, proofread, in-game instructions (5)
+[Y] Have some form of player input/control appropriate to your game design (5)
 [] Include one or more animated characters that use a texture atlas (5)
 [] Simulate scrolling with a tileSprite or equivalent means (5)
-[] Implement proper collision detection (via Arcade Physics or your own detection routine) (5)
+[Y] Implement proper collision detection (via Arcade Physics or your own detection routine) (5)
 [] Have looping background music (5)
 [] Use sound effects for key mechanics, UI, and/or significant events appropriate to your game design (5)
-[] Use randomness to generate challenge, e.g. terrain, pickups, etc. (5)
-[] Include some metric of accomplishment that a player can improve over time, e.g., score, survival time, etc. (5)
-[] Be theoretically endless (5)
-[] Be playable for at least 15 seconds for a new player of low to moderate skill (5)
-[] Run without significant crashes or errors (5)
-[] Include in-game credits for all roles, assets, music, etc. (5)
+[Y] Use randomness to generate challenge, e.g. terrain, pickups, etc. (5)
+[Y] Include some metric of accomplishment that a player can improve over time, e.g., score, survival time, etc. (5)
+[Y] Be theoretically endless (5)
+[Y] Be playable for at least 15 seconds for a new player of low to moderate skill (5)
+[Y] Run without significant crashes or errors (5)
+[Y] Include in-game credits for all roles, assets, music, etc. (5)
 
 Lane's Checklist:
-[] load screen
+[Y] load screen
 [] make white_cross something else probably
 [] new font
 [] character texture atlas
@@ -41,8 +41,8 @@ Lane's Checklist:
 [] ~~gravity after invert probably~~ make it stronger prob
 [] ~~import sounds~~
 [] import imgs
-[] ~~am i cracked enough to do a marathon overnight I guess so~~
-[] ~~in-game credits (separate scene or after death to menu) not sure which~~
+[Y] ~~am i cracked enough to do a marathon overnight I guess so~~
+[Y] ~~in-game credits (separate scene or after death to menu) not sure which~~
 [] COMMENT ALL CODE THAT WAS INSPIRED BY NATHANS EXAMPLE
 
 

@@ -37,3 +37,7 @@ let highScore;
 let newHighScore = false;
 let spacebar;  // spacebar global key var
 let cursors;   // global var for cursor keys()
+// text configs
+let titleConfig = {fontFamily: 'Dagger', fontSize: '72px', color: '#FFFFFF'};
+let bodyConfig = {fontFamily: 'Dagger', fontSize: '36px', color: '#FFFFFF'};
+let subConfig = {fontFamily: 'Dagger', fontSize: '24px', color: '#FFFFFF'};

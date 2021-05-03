@@ -26,12 +26,12 @@ class GameOver extends Phaser.Scene {
 
         // add GAME OVER text
         if(newHighScore) {
-            this.add.bitmapText(centerX, centerY - txtSpacing, 'gem', 'New Hi-Score!', 32).setOrigin(0.5);
+            this.add.text(centerX, centerY - txtSpacing, 'New Hi-Score!', titleConfig).setOrigin(0.5);
         }
-        this.add.bitmapText(centerX, centerY, 'gem', `Running Time ${time}s`, 48).setOrigin(0.5);
-        this.add.bitmapText(centerX, centerY + txtSpacing, 'gem', `Your Best Score: ${highScore}s`, 24).setOrigin(0.5);
-        this.add.bitmapText(centerX, centerY + txtSpacing*2, 'gem', `Press UP ARROW to Restart`, 36).setOrigin(0.5);
-        this.add.bitmapText(centerX, centerY + txtSpacing*3, 'gem', `Press Down ARROW for Menu`, 36).setOrigin(0.5);
+        this.add.text(centerX, centerY, `Running Time ${time}s`, titleConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + txtSpacing, `Your Best Score: ${highScore}s`, bodyConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + txtSpacing*2, `Press UP ARROW to Restart`, subConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + txtSpacing*2.5, `Press Down ARROW for Menu`, subConfig).setOrigin(0.5);
         // set up cursor keys
         cursors = this.input.keyboard.createCursorKeys();
     }

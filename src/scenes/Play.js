@@ -130,40 +130,24 @@ class Play extends Phaser.Scene {
         // ramp objects every 10 seconds
         // Nathan Altice's PaddleParkou3 has a similar idea
         // we like this
-        if(time % 10 == 0) {
-            this.sound.play('clang', { volume: 0.75 });         // play clang to signal speed up
-            if(this.barrierSpeed >= this.barrierSpeedMax) {     // increase barrier speed
-                this.barrierSpeed -= 25;
-                this.bgm.rate += 0.01;                          // increase bgm playback rate (ドキドキ)
+        if(time % 5 == 0) {
+            this.sound.play('clang', { volume: 0.55 });         // play clang to signal speed up
+            if(this.meteorSpeed >= this.meteorSpeedMax) {     // increase meteor speed
+                this.meteorSpeedMax += 100;
+                this.meteorSpeed += 25;
             }
             
-            // score text flying across screen
-            let lvltxt01 = this.add.bitmapText(gameW, centerY, 'gem', `${time}`, 96).setOrigin(0, 0.5);
-            let lvltxt02 = this.add.bitmapText(gameW, centerY, 'gem', `${time}`, 96).setOrigin(0, 0.5);
-            let lvltxt03 = this.add.bitmapText(gameW, centerY, 'gem', `${time}`, 96).setOrigin(0, 0.5);
+            // current time flash on screen
+            let lvltxt01 = this.add.text(centerX, txtSpacing, `${time}`, titleConfig).setOrigin(0, 0.5);
             lvltxt01.setBlendMode('ADD').setTint(0xff00ff);
-            lvltxt02.setBlendMode('SCREEN').setTint(0x0000ff);
-            lvltxt03.setBlendMode('ADD').setTint(0xffff00);
             this.tweens.add({
-                targets: [lvltxt01, lvltxt02, lvltxt03],
-                duration: 2500,
-                x: { from: gameW, to: 0 },
+                targets: [lvltxt01],
+                duration: 2000,
+                y: { from: txtSpacing, to: 0},
                 alpha: { from: 0.9, to: 0 },
                 onComplete: function() {
                     lvltxt01.destroy();
-                    lvltxt02.destroy();
-                    lvltxt03.destroy();
                 }
-            });
-            this.tweens.add({
-                targets: lvltxt02,
-                duration: 2500,
-                y: '-=20'       // slowly nudge y-coordinate up
-            });
-            this.tweens.add({
-                targets: lvltxt03,
-                duration: 2500,
-                y: '+=20'       // slowly nudge y-coordinate down
             });
         }
 
@@ -172,8 +156,20 @@ class Play extends Phaser.Scene {
             player.velocity += player.velocity;
             this.addMeteor();
         }
+        // after 30 seconds invert controls
+        if(time == 30) {
+            player.velocity += 2*player.velocity;
+            this.right    = cursors.right;
+            cursors.right = cursors.left;
+            cursors.left  = this.right;
+            this.addMeteor();
+            this.addBarrier();
+        }
+        // after 45 seconds only let the player move backwards
         if(time == 45) {
             player.velocity += 2*player.velocity;
+            cursors.right = cursors.left;
+            cursors.left = cursors.right;
             this.addMeteor();
             this.addBarrier();
         }

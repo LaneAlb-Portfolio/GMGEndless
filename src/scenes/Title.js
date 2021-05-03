@@ -5,14 +5,15 @@ class Title extends Phaser.Scene {
 
     create() {
         // Title Txt
-        let title01 = this.add.bitmapText(centerX, centerY - txtSpacing, 'gem', 'GMG RUNNER', 64).setOrigin(0.5).setTint(0xff0000);
-        let title02 = this.add.bitmapText(centerX, centerY - txtSpacing, 'gem', 'GMG RUNNER', 64).setOrigin(0.5).setTint(0xff00ff).setBlendMode('SCREEN');
-        let title03 = this.add.bitmapText(centerX, centerY - txtSpacing, 'gem', 'GMG RUNNER', 64).setOrigin(0.5).setTint(0xffff00).setBlendMode('ADD');
+        let title01 = this.add.text(centerX, centerY - txtSpacing, 'GMG RUNNER', titleConfig).setOrigin(0.5).setTint(0xff0000);
+        let title02 = this.add.text(centerX, centerY - txtSpacing, 'GMG RUNNER', titleConfig).setOrigin(0.5).setTint(0xff00ff).setBlendMode('SCREEN');
+        let title03 = this.add.text(centerX, centerY - txtSpacing, 'GMG RUNNER', titleConfig).setOrigin(0.5).setTint(0xffff00).setBlendMode('ADD');
         // Body
-        this.add.bitmapText(centerX, centerY, 'gem', 'Use SPACE to invert your gravity', 24).setOrigin(0.5);
-        this.add.bitmapText(centerX, centerY + txtSpacing*0.5, 'gem', 'use LEFT and RIGHT arrows to move', 24).setOrigin(0.5);
-        this.add.bitmapText(centerX, centerY + txtSpacing*2, 'gem', 'Press UP ARROW to Start', 36).setOrigin(0.5);
-        this.add.bitmapText(centerX, gameH - txtSpacing, 'gem', 'GMG 2021', 16).setOrigin(0.5);
+        
+        this.add.text(centerX, centerY, 'Use SPACE to invert your gravity', bodyConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + txtSpacing*0.5,'use LEFT and RIGHT arrows to move', bodyConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + txtSpacing*2, 'Press UP ARROW to Start', bodyConfig).setOrigin(0.5);
+        this.add.text(centerX, gameH - txtSpacing, 'GMG 2021', bodyConfig).setOrigin(0.5);
 
         // title text tween (Based on PaddleRunner)
         this.tweens.add({

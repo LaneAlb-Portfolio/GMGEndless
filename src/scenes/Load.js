@@ -17,78 +17,51 @@ class Load extends Phaser.Scene {
         this.load.audio('clang', ['audio/clang.mp3']);
         this.load.audio('death', ['audio/death.mp3']);
         // load font
-        this.load.bitmapFont('gem', 'font/gem.png', 'font/gem.xml');
-
+        
         // loading bar
-        
-        this.limg = this.add.image(centerX,centerY,'GMG').setOrigin(0.5);
-        
-            let width = this.cameras.main.width;
-            let height = this.cameras.main.height;
+        let width = this.cameras.main.width;
+        let height = this.cameras.main.height;
 
-            this.loadingNum = 0;
-            let loadingNumConfig = {
-            fontFamily: 'Courier',
-            fontSize: '48px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'left',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
-        //this.ltext = this.add.text(centerX,centerY,'G M G', loadingNumConfig).setOrigin(0.5);
-
-            let loadingText = this.make.text({
-                x: width / 2,
-                y: height / 2 + 185,
-                text: 'Loading...',
-                style: {
-                    font: '20px monospace',
-                    fill: '#ffffff'
-                }
-            });
-            loadingText.setOrigin(0.5, 0.5);
-            
-            let percentText = this.make.text({
-                x: width / 2,
-                y: height / 2 + 215,
-                text: '0%',
-                style: {
-                    font: '18px monospace',
-                    fill: '#ffffff'
-                }
-            });
-            percentText.setOrigin(0.5, 0.5);
+        this.loadingNum = 0;
+        this.logoConfig = {fontFamily: 'Dagger', fontSize: '72px', backgroundColor: '#FFFFFF', color: '#000000'};
+        let GMG = this.add.text(centerX, centerY - txtSpacing, ' GMG ', this.logoConfig).setOrigin(0.5);
+        let loadingText = this.add.text(
+            width / 2,
+            height / 2 + 185,
+            'Loading...',
+            {fontFamily: 'Dagger',
+            fontSize: '36px',
+            color: '#FFFFFF'}
+        );
+        loadingText.setOrigin(0.5, 0.5);
+        
+        let percentText = this.add.text(
+            width / 2,
+            height / 2 + 215,
+            '0%',
+            {fontFamily: 'Dagger',
+            fontSize: '24px',
+            color: '#FFFFFF'      
+        });
+        percentText.setOrigin(0.5, 0.5);
                          
-            this.load.on('progress', function (value) {
-                percentText.setText(parseInt(value * 100) + '%'); 
-            });
+        this.load.on('progress', function (value) {
+            percentText.setText(parseInt(value * 100) + '%'); 
+        });
             
- 
-            this.load.on('complete', function () {
-                loadingText.destroy();
-                percentText.destroy();
-            });
-            
-            
-            for (let i = 0; i < 3000; i++) {
-                this.load.image('black', 'img/black.png')
-            }
-            
+        this.load.on('complete', function () {
+            loadingText.destroy();
+            percentText.destroy();
+        });
 
-
-
-        
+        for (let i = 0; i < 4000; i++) {
+            this.load.image('black', 'img/black.png')
+        }
     }
-
 
     update(){
         if(true){
         this.scene.start('titleScene');
         }
     }
-    
 }
