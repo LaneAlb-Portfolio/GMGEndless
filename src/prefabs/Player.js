@@ -15,7 +15,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.velocity = 200;                   // base velocity value
         this.flipped = false;                  // check if sprite axis is flipped
         this.destroyed = false;                // destruction bool
-        this.setVelocityY(this.velocity);      // can set velocity for X if we want side movement
+        this.setVelocityY(this.velocity);
     }
     update() {
         // check for player input
@@ -29,9 +29,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // use velocity instead?
         if(cursors.left.isDown){
             this.x -= 2;
+            this.setFlipX(true);
         }
         if(cursors.right.isDown){
             this.x += 2;
+            this.setFlipX(false);
         }
         // debugs
     }

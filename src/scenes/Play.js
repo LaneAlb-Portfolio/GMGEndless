@@ -17,10 +17,10 @@ class Play extends Phaser.Scene {
         this.ceilDeath = false;
         this.scrollSpeed = 2;
         // set up audio, play bgm
-        this.bgm = this.sound.add('beats', { 
+        this.bgm = this.sound.add('bgm', { 
             mute: false,
-            volume: 1,
-            rate: 1,
+            volume: 0.9,
+            rate: 0.8,
             loop: true 
         });
         this.bgm.play();
@@ -37,32 +37,42 @@ class Play extends Phaser.Scene {
         // line here
         let fire = new Phaser.Geom.Line(0, 0, 0, gameH);  
         // create particle manager
-        this.particleManager = this.add.particles('cross');
+        this.particleManager = this.add.particles('fire');
         // add emitter and setup properties
         this.lineEmitter = this.particleManager.createEmitter({
             gravityX: 25,
             lifespan: 500,
             alpha: { start: 0.4, end: 0.01 },
+            scale: 1.5,
             tint: [ 0xeb4034, 0xa8140a, 0xe39691, 0xe8b038, 0x96433e ], //red tints
             emitZone: { type: 'edge', source: fire, quantity: 100 },
             blendMode: 'ADD'
         });
 
         // set up player paddle (physics sprite) and set properties
-        player = new Player(this, 64, gameH-32, 'PlayerSprite', 0);
-
+        let frameNames = this.anims.generateFrameNames('player',{
+            start: 1, end: 6, prefix: 'spacemanrun'
+        });
+        this.anims.create({
+            key: 'run',
+            frames: frameNames,
+            frameRate: 20,
+            repeat: -1
+        });
+        player = new Player(this, 64, gameH-32, 'player', 0);
+        player.setScale(1.5);
+        player.anims.play('run');
         // set up barrier group
         this.barrierGroup = this.add.group({
             runChildUpdate: true    // make sure update runs on group children
         });
-
         // set up Meteor Group
         this.meteorGroup = this.add.group({
             runChildUpdate: true    // make sure update runs on group children
         });
 
         // wait awhile for wall spawns
-        this.time.delayedCall(10000, () => { 
+        this.time.delayedCall(2000, () => { 
             this.addBarrier();
         });
         // wait slightly before meteors spawn
@@ -86,16 +96,37 @@ class Play extends Phaser.Scene {
 
     // create new barriers and add them to existing barrier group
     addBarrier() {
+        // generate random texture out of the 3 in assests
+        let prefix = "wall";
+        let chars = "123";
+        let result = prefix + chars.charAt(Math.floor(Math.random() * chars.length));
+        // subtract barrier speed from randSpeed since negative velocity
         let randSpeed =  Phaser.Math.Between(0, 50);
-        let barrier = new Barrier(this, this.barrierSpeed - randSpeed);
+        let barrier = new Barrier(this, this.barrierSpeed - randSpeed, result);
+        barrier.setScale((Math.random() * 0.5) + 1); // if barriers get to large reduce '0.5'
         this.barrierGroup.add(barrier);
     }
 
     // create new death balls and add them to existing group
     addMeteor() {
+        // generate random texture out of the 3 in assests
+        let prefix = "meteor";
+        let chars = "123";
+        let result = prefix + chars.charAt(Math.floor(Math.random() * chars.length));
         let randSpeed =  Phaser.Math.Between(0, 250);
-        // subtract barrier speed from randSpeed since negative velocity
-        let m = new Meteor(this, this.meteorSpeed - randSpeed);
+        let m = new Meteor(this, this.meteorSpeed - randSpeed, result);
+        m.setScale((Math.random() * 0.5) + 1); // if meteors to large reduce '0.5'
+        // meteor trail following
+        let particles = this.add.particles('fire');
+        particles.createEmitter({
+            alpha: { start: 1, end: 0 },
+            scale: { start: 1.75, end: 1 },
+            speed: this.meteorSpeed + 50, // slower than the projectile
+            tint: [0xe6cf22, 0xeb4034, 0xa8140a, 0xe39691], // fire tints
+            lifespan: 200,
+            blendMode: 'LIGHTEN',
+            follow: m
+        });
         this.meteorGroup.add(m);
     }
 
@@ -104,11 +135,13 @@ class Play extends Phaser.Scene {
         if(!player.destroyed) {
             //console.log(player.y);
             player.update();
+            // scrolling background
             this.ship.tilePositionX += this.scrollSpeed;
             this.stars.tilePositionX -= 1;
             if(Phaser.Input.Keyboard.JustDown(spacebar)){
                 // figure out gravity settings
-                player.setGravityY(player.velocity * 500);
+                player.setGravityY(player.velocity * 1000);
+                this.sound.play('invert');
             }
             // if collide with wall force player backwards
             // kill player on collide with object
@@ -117,9 +150,11 @@ class Play extends Phaser.Scene {
             
             // if electricity is on kill player on contact
             if(this.floorDeath && player.y >= gameH - player.height){
+                this.sound.play('eDeath');
                 this.playerCollision();
             }
             if(this.ceilDeath && player.y <= player.height){
+                this.sound.play('eDeath');
                 this.playerCollision();
             }
         }
@@ -150,7 +185,7 @@ class Play extends Phaser.Scene {
                 }
             });
         }
-
+        // difficulty increases are 15, 30 and 45 seconds of running time
         // spawn more objects as time goes on
         if(time == 15) {
             this.place = "ceil";
@@ -186,18 +221,17 @@ class Play extends Phaser.Scene {
     playerCollision() {
         player.destroyed = true;                    // turn off collision checking
         this.difficultyTimer.destroy();             // shut down timer
-        this.sound.play('death', { volume: 0.25 }); // play death sound
         this.cameras.main.shake(2500, 0.0075);      // camera death shake
-        
+        this.sound.play('fDeath');
         // cut audio
         this.bgm.volume = 0;
-
         // create particle explosion
-        let deathParticleManager = this.add.particles('cross');
+        let deathParticleManager = this.add.particles('fire');
         let deathEmitter = deathParticleManager.createEmitter({
             alpha: { start: 1, end: 0 },
-            scale: { start: 0.75, end: 0 },
+            scale: { start: 1.75, end: 0.5 },
             speed: { min: -25, max: 25 },
+            tint: [0xe6cf22], // red mist
             lifespan: 1000,
             blendMode: 'ADD'
         });
@@ -218,9 +252,6 @@ class Play extends Phaser.Scene {
     wallCollide(){
         //console.log("Vel: " + paddle.velocityX);
         player.x -= 4;
-        // tentative collide with left hand screen
-        // see if there are exceptions to worldBound Collide 
-        // OR just live with player dying upon immediate left hand collision
         if(player.x <= player.width){
             this.playerCollision();
         }
@@ -228,33 +259,35 @@ class Play extends Phaser.Scene {
 
     electricFloor(placement){
         if(placement == "floor"){
-            let floorParticles = this.add.particles('cross');
+            let floorParticles = this.add.particles('bolt');
             let floor = new Phaser.Geom.Line(0, gameH, gameW, gameH);  
             // add emitter and setup properties
             this.floorEmitter = floorParticles.createEmitter({
                 setGravityY: -25,
                 lifespan: 600,
-                alpha: { start: 0.6, end: 0 },
+                scale: 1.25,
+                alpha: { start: 0.9, end: 0.2 },
                 tint: [ 0xe6cf22, 0xf0df62, 0xbfab13, 0xfff821, 0xd4cd02 ], //yellow tints
-                emitZone: { type: 'edge', source: floor, quantity: 50 },
-                blendMode: 'ADD'
+                emitZone: { type: 'edge', source: floor, quantity: 80 },
+                blendMode: 'LUMINOSITY'
             });
             this.floorDeath = true;
         }
         if(placement == "ceil"){
-            let ceilParticles = this.add.particles('cross');
+            let ceilParticles = this.add.particles('bolt');
             let ceil = new Phaser.Geom.Line(0, 0, gameW, 0);  
             // add emitter and setup properties
             this.ceilEmitter = ceilParticles.createEmitter({
                 setGravityY: 25,
                 lifespan: 600,
-                alpha: { start: 0.6, end: 0 },
+                scale: 1.25,
+                alpha: { start: 0.9, end: 0.2 },
                 tint: [ 0xe6cf22, 0xf0df62, 0xbfab13, 0xfff821, 0xd4cd02 ], //yellow tints
-                emitZone: { type: 'edge', source: ceil, quantity: 50 },
-                blendMode: 'ADD'
+                emitZone: { type: 'edge', source: ceil, quantity: 80 },
+                blendMode: 'LUMINOSITY'
             });
             this.ceilDeath = true;
         }
-        console.log(this.floorDeath + " Bools " + this.ceilDeath);
+        //console.log(this.floorDeath + " Bools " + this.ceilDeath);
     }
 }

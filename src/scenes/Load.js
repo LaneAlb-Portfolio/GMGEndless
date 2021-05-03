@@ -5,24 +5,29 @@ class Load extends Phaser.Scene {
 
     preload() {
         this.load.path = './assets/';
-        // load texture atlas
-        this.load.atlas('sprites', 'img/spritesheet.png', 'img/spritesheet.json');
+        // load player from atlas
+        this.load.atlas('player', 'img/spaceman.png', 'img/spaceman.json');
         // load graphical assets
         this.load.image('stars', 'img/spacebg.png');
         this.load.image('ship', 'img/spacefg.png');
-        this.load.image('black','img/black.png')
-        this.load.image('GMG','img/gmg_logo.png')
-        // Del Below
-        this.load.image('paddle', 'img/paddle.png');
-        this.load.image('circle', 'img/circle.png');
-        this.load.image('fragment', 'img/fragment.png');
-        this.load.image('cross', 'img/white_cross.png');
+        this.load.image('black','img/black.png');
+        this.load.image('bolt', 'img/bolt.png');
+        this.load.image('fire', 'img/Fire.png');
+        // load meteor types
+        this.load.image('meteor1', 'img/meteorsmall.png');
+        this.load.image('meteor2', 'img/meteorsquare.png');
+        this.load.image('meteor3', 'img/meteorbroken.png');
+        // load wall types
+        this.load.image('wall1', 'img/wall1.png');
+        this.load.image('wall2', 'img/wall2.png');
+        this.load.image('wall3', 'img/wall3.png');
         // load audio assets
-        this.load.audio('beats', ['audio/beats.mp3']);
-        this.load.audio('clang', ['audio/clang.mp3']);
-        this.load.audio('death', ['audio/death.mp3']);
+        this.load.audio('bgm', 'audio/RunnerSong1mp3.mp3');
+        this.load.audio('fDeath', 'audio/Fireball Death.mp3');
+        this.load.audio('eDeath', 'audio/Electric Death.mp3');
+        this.load.audio('invert', 'audio/Sounds/Invert/Invert.mp3');
         // loading bar
-        let width = this.cameras.main.width;
+        let width  = this.cameras.main.width;
         let height = this.cameras.main.height;
 
         this.loadingNum = 0;

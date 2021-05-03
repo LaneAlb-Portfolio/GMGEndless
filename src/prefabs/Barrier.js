@@ -1,7 +1,8 @@
 class Barrier extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, velocity) {
+    constructor(scene, velocity, texture) {
         // call Phaser Physics Sprite constructor
-        super(scene, game.config.width + 20, Phaser.Math.Between(64, game.config.height - 64), 'paddle'); 
+
+        super(scene, game.config.width + 20, Phaser.Math.Between(64, game.config.height - 64), texture); 
         // set up physics sprite
         scene.add.existing(this);               // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);       // add physics body

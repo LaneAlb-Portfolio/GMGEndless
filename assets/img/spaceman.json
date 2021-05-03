@@ -1,0 +1,6 @@
+{"frames":[{"filename":"spacemanrun1","frame":{"x":0,"y":0,"w":32,"h":33},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":32,"h":33},"sourceSize":{"w":32,"h":33}},
+    {"filename":"spacemanrun2","frame":{"x":32,"y":0,"w":32,"h":33},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":32,"y":0,"w":32,"h":33},"sourceSize":{"w":32,"h":33}},
+    {"filename":"spacemanrun3","frame":{"x":64,"y":0,"w":32,"h":33},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":64,"y":0,"w":32,"h":33},"sourceSize":{"w":32,"h":33}},
+    {"filename":"spacemanrun4","frame":{"x":96,"y":0,"w":32,"h":33},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":96,"y":0,"w":32,"h":33},"sourceSize":{"w":32,"h":33}},
+    {"filename":"spacemanrun5","frame":{"x":128,"y":0,"w":32,"h":33},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":128,"y":0,"w":32,"h":33},"sourceSize":{"w":32,"h":33}},
+    {"filename":"spacemanrun6","frame":{"x":160,"y":0,"w":32,"h":33},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":160,"y":0,"w":32,"h":33},"sourceSize":{"w":32,"h":33}}],"meta":{"app":"https://www.leshylabs.com/apps/sstool/","version":"Leshy SpriteSheet Tool v0.8.4","image":"spaceman.png","size":{"w":192,"h":33},"scale":1}}

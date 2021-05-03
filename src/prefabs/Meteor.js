@@ -1,7 +1,7 @@
 class Meteor extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, velocity) {
+    constructor(scene, velocity, texture) {
         // call Phaser Physics Sprite constructor
-        super(scene, game.config.width + 24, Phaser.Math.Between(32, game.config.height - 32), 'circle'); 
+        super(scene, game.config.width + 24, Phaser.Math.Between(32, game.config.height - 32), texture); 
         // set up physics sprite
         scene.add.existing(this);               // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);       // add physics body
