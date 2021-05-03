@@ -12,8 +12,25 @@ Did you look beyond the class examples and learn how to do something new? (5)
 Are you trying something new or clever with the endless runner form? (5)
 
 [Our Response]
+[Lane]
+Particle Emitters following the meteor physics objects. Not only is it cool, but was surprisingly already supported by Phaser so it didn’t require any fancy coding.
+Also the way the meteor and wall objects have completely random size, varying art assets, and speeds was a nice touch which was inspired by the randomized hex color
+maker that resided in Paddle Parkour is a small but powerful piece of code.
 
 
+[Mikayla]
+(Visual Style) The style is heavily linked to the main mechanic of the game- that being gravity inversion, a concept often tied to space and science fiction.
+The background, character, obstacles, and sound design all follow this space/scify theme, and I'm very happy with how it turned out. Style, sound, and animation
+concepts were drawn from lectures, previous classes, and previous experience, blending together to make a thematically cohesive experience. I'm especially happy
+with the sound design- its a newer experience for me personally, and I believe it turned out great. The chippy, bitcrushed sounds and tunes all fit very well with
+the pixel style. 
+(Endless Runner Form) When thinking of what to do with our game, we drew from previous endless runners we've played- Temple Run, JetPack Joyride, and so on. Something
+ we hadn't seen however was a game that used, rather than jumping, a gravity-inversion mechanic to avoid projectiles. The mechanic allows for unique dodging and survival
+ strategy, and fits very well with our art and sound design, making the game fun, new, and thematically cohesive.
+
+[Josh]
+Though I did little programming on this project, I am proud of how much i learned while reading Lane's code. As far as art/asset wise I am proud of what I could find, modify,
+and bring to table to aid in understanding the production path of this project.
 
 Structure and Design (75 points) Checklist:
 [Y] Use multiple Scene classes (defined by your game's style) (5)
